@@ -1,0 +1,17 @@
+handlers\Parametri.class
+test\Parametri.class
+test\TCPTest.class
+test\TCPHTTPTest.class
+test\TCPBTTest.class
+Client.class
+test\TCPRandomTest.class
+test\Test.class
+handlers\TesterException.class
+handlers\Controller.class
+handlers\ControllerException.class
+handlers\Tester.class
+handlers\TesterTimeoutException.class
+SimpleLogFormatter.class
+handlers\ConnectorException.class
+Client$1.class
+handlers\Connector.class
