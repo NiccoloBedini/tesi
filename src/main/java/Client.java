@@ -1,7 +1,3 @@
-
-// PROVA DI MODIFICA CON GIT E CHECKOUTS
-
-
 import java.util.HashMap;
 import java.util.logging.*;
 import test.*;
@@ -10,7 +6,7 @@ import static handlers.Parametri.*;
 
 
 /*      MetaProducer class non implementata
- * 
+ *      commit 2
  * 
  */
 
@@ -119,29 +115,28 @@ public class Client {
         Integer port = null;
         TCPTest test_var = null;
         int phase = 0;
-        int debug = 0;
         while(true){
             try{
-                System.out.println("Entro nel while n. " + debug);
-                if(debug == 5)
-                    return;
-                debug++;
                 Integer[] received_buffer = controller.recv_control_msg();
                 msg = received_buffer[0];
                 port = received_buffer[1];
             }
             catch(ControllerException ce){
                 logger.warning("Controller error, exiting: " + ce.msg);
+                break;
             }
-            
 
             // ####### GESTIONE MESSAGGIO DI CONTROLLO DAL SERVER #######
 
-            if (msg == CONTROLLER_ABORT_MEASURE_MSG)
+            if (msg == CONTROLLER_ABORT_MEASURE_MSG){
                 logger.info("Received abort measure message");
+                break;
+            }
 
-            else if (msg == CONTROLLER_FINISH_MEASURE_MSG)
+            else if (msg == CONTROLLER_FINISH_MEASURE_MSG){
                 logger.info("Received finish measure message");
+                break;
+            }
 
             else if ( msg == CONTROLLER_START_UB_MSG){
                 if (port == null){
@@ -209,7 +204,7 @@ public class Client {
                 meta_data.put("http_test",http_result);
                 logger.info("Metadata: " + meta_data);
                 logger.info("Sending data to server");
-                // controller.send_control_msg(CONTROLLER_OK_MSG, meta_data); va implementato bene controller in handler
+                controller.send_control_msg(CONTROLLER_OK_MSG, meta_data); //meta_data è un hashmap di tipo diverso da result
                 continue;
             }
 
@@ -226,7 +221,7 @@ public class Client {
                     logger.info("Starting test");
 
                     for(int i = 0; i < 1; i++ ){ // sarebbe 2
-                        logger.info("Starting test" + i);
+                        logger.info("Starting test " + i);
                         tester.do_test(test_var, phase, i, result, duration);
                         if (phase == TEST_UPLINK_PHASE && i == TEST_SPEEDTEST_TYPE)
                             logger.info("Sleeping");
@@ -240,15 +235,7 @@ public class Client {
                             break;
                     }
 
-                    /* per vedere l'hashmap che si manda al server */
-                    logger.info("Sending result to server");
-                    System.out.println("######### Result");
-                    /* 
-                    for (Map.Entry<Double, Integer> entry : result.entrySet()) {
-                        System.out.println("Chiave: " + entry.getKey() + " - Valore: " + entry.getValue());
-                    }
-                    */
-                    
+                    logger.info("Sending result to server"); 
                     controller.send_control_msg(CONTROLLER_OK_MSG, result);
                 }
                 catch(TesterException te){
@@ -294,6 +281,13 @@ public class Client {
                 if (te.error == TESTER_INIT_CLIENT_ERROR)
                     controller.send_control_msg(CONTROLLER_CLIENT_TEST_INIT_ERROR);
             }
+        }
+        logger.info("Ending");
+        try{
+            connector.close_connection();
+        }
+        catch(ConnectorException ce){
+            logger.severe(ce.msg);
         }
     }
     

@@ -24,7 +24,7 @@ public class Controller {
         this.control_socket = control_socket;
     }
 
-    // dal punto di vista del clien extra = port
+    // dal punto di vista del client extra = port
     public Integer[] recv_control_msg() throws ControllerException {  
         try{    
             Integer[] received = recv_msg_from_tcp_socket(this.control_socket);
@@ -116,7 +116,7 @@ public class Controller {
         send_control_msg(msg,null);
     }
 
-    public void send_control_msg(int msg, HashMap<Double,Integer> extra) throws ControllerException{
+    public <K, V> void send_control_msg(int msg, HashMap<K,V> extra) throws ControllerException{
         if (msg < CONTROLLER_START_UB_MSG || msg > CONTROLLER_CLIENT_TEST_INIT_ERROR) 
             throw new ControllerException("Message is not valid");
         
@@ -131,7 +131,6 @@ public class Controller {
                 else{
                     Gson gson = new Gson();
                     send_msg_on_tcp_socket(this.control_socket,msg,gson.toJson(extra).getBytes());
-                    logger.info(" - ### CONVERSIONE JSON ### - ");
                 }
             }
             catch(IOException ie){

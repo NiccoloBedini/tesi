@@ -47,7 +47,7 @@ public abstract class TCPTest extends Test{
     }
 
     protected void send_on_socket(Socket send_socket, byte[] data) throws IOException{
-        // System.out.println("invio di " + data.length + " Bytes.");
+        // System.out.println("invio di " + data.length + " Bytes."); non è un vero controllo!
         OutputStream out = send_socket.getOutputStream();
         out.write(data);
         out.flush();
@@ -80,10 +80,8 @@ public abstract class TCPTest extends Test{
                 System.arraycopy(msg, 0, rec, copied_byte, received_bytes);
                 copied_byte += received_bytes;
             } catch (SocketTimeoutException to) {
-                logger.info("Len(rec) aspected: 5, received: " + received_bytes);
-                if (intervals == null || received_bytes != 5) {
+                if (intervals == null || received_bytes != 5) 
                     throw to;
-                }
                 logger.info("Timeout occurred, measurement finished: " + to.getMessage());
                 break;
             }

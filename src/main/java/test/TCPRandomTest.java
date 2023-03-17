@@ -71,9 +71,9 @@ public class TCPRandomTest extends TCPTest{
     }
 
     public void uplink_test(Socket send_socket, int duration) throws IOException{ 
-        logger.info("<TCP - TEST UPLINK>");
+        System.out.println("<TCP - TEST UPLINK>");
         __uplink_preparation(send_socket);
-        int bytes_sent = 0;
+        // int bytes_sent = 0; presente nel codice originale ma non viene usata
         long stop = System.currentTimeMillis() / 1000;
         long start = System.currentTimeMillis() / 1000;
         
@@ -82,7 +82,7 @@ public class TCPRandomTest extends TCPTest{
             super.receive_from_socket(send_socket, BITTORRENT_REQUEST_TOTAL_LENGTH * NUMBER_OF_REQUESTS);
             byte[] response = build_response();
             super.send_on_socket(send_socket, response);
-            bytes_sent += response.length;
+            // bytes_sent += response.length; presente nel codice originale ma non viene usata
             stop = System.currentTimeMillis() / 1000;
         }
 
@@ -127,7 +127,7 @@ public class TCPRandomTest extends TCPTest{
     }
 
     public HashMap<Double, Integer> downlink_test(Socket receive_socket, HashMap<Double, Integer> intervals) throws IOException{
-        logger.info("<TCP - TEST DOWNLINK>");
+        System.out.println("<TCP - TEST DOWNLINK>");
         __downlink_preparation(receive_socket);
         receive_socket.setSoTimeout(5000);
         int total_rec = 0;

@@ -86,7 +86,6 @@ public class TCPBTTest extends TCPTest{
         super.receive_from_socket(send_socket, 68);
         byte[] handshake_send = fromhex("13426974546f7272656e742070726f746f636f6c000000000000000031420a403f2ea" +
                             "41c67aca80b46e956389a7f17b62d5452323832302d36333065666467316a677937");
-        logger.info("choke len = " + handshake_send.length);
         
         super.send_on_socket(send_socket, handshake_send);
         byte[] unchoke = fromhex("0000000101");
@@ -100,7 +99,7 @@ public class TCPBTTest extends TCPTest{
     }
 
     public void uplink_test(Socket send_socket, int duration) throws IOException{ //DEFAULT_TEST_DURATION
-        logger.info("<BitTORRENT - TEST UPLINK>");
+        System.out.println("<BitTORRENT - TEST UPLINK>");
         send_socket.setSoTimeout(5000);
         __uplink_preparation(send_socket);
         long bytes_sent = 0;
@@ -119,7 +118,6 @@ public class TCPBTTest extends TCPTest{
 
         //stop test -> invio choke
         byte[] choke = fromhex("0000000100");
-        logger.info("choke len = " + choke.length);
         super.send_on_socket(send_socket, choke);
     }
 
@@ -145,10 +143,9 @@ public class TCPBTTest extends TCPTest{
     }
 
     public HashMap<Double, Integer> downlink_test(Socket receive_socket, HashMap<Double, Integer> intervals) throws IOException{
-        logger.info("<BitTORRENT - TEST DOWNLINK>");
+        System.out.println("<BitTORRENT - TEST DOWNLINK>");
         receive_socket.setSoTimeout(5000);
         __downlink_preparation(receive_socket);
-        logger.info("##FINITO DOWNLINK_PREPARATION###");
         int index = 0x0;
         long total_rec = 0;
         double start = System.currentTimeMillis() / 1000;
