@@ -6,7 +6,7 @@ import static handlers.Parametri.*;
 
 
 /*      MetaProducer class non implementata
- *      commit 2
+ *      commit 3
  * 
  */
 
@@ -90,7 +90,7 @@ public class Client {
                 else
                     logger.severe("Test failed " + te.msg + ", " + te.error + ", " + te.errno );
 
-                http_result.put((double)0, -1); // test fallito (non so se va bene)
+                http_result.put((double)0, -1);
             }
         }
         else

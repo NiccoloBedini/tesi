@@ -72,10 +72,9 @@ public abstract class TCPTest extends Test{
                     break;
                 }
 
-                if (intervals != null) {
+                if (intervals != null) 
                     intervals.put((double)System.currentTimeMillis() / 1000, received_bytes);
-                }
-
+                
                 length -= received_bytes;
                 System.arraycopy(msg, 0, rec, copied_byte, received_bytes);
                 copied_byte += received_bytes;
@@ -129,8 +128,8 @@ public abstract class TCPTest extends Test{
     abstract public void uplink_test(Socket send_socket) throws IOException;
     abstract public void uplink_test(Socket send_socket, int duration) throws IOException; //DEFAULT_TEST_DURATION
 
-    abstract public void uplink_traceroute();
-    abstract public void downlink_traceroute();
+//    abstract public void uplink_traceroute();
+//    abstract public void downlink_traceroute();
 
     abstract public HashMap<Double, Integer> downlink_test(Socket receive_socket, HashMap<Double, Integer> intervals) throws IOException;
 }

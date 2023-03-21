@@ -3,7 +3,6 @@ import static handlers.Parametri.*;
 
 import test.TCPTest;
 import java.io.IOException;
-import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
@@ -16,7 +15,6 @@ public class Tester {
 
     private int port;
     private Socket __test_socket;
-    private DatagramSocket __icmp_socket;
 
     public Tester(int port) throws TesterException{
         this.port = port;
@@ -30,16 +28,7 @@ public class Tester {
             throw new TesterException(TESTER_INIT_CLIENT_ERROR,"Unable to create socket for test",se.getCause());
         }
 
-        // problema con icmp socket -> ci sono molte opzioni nella creazione
-        /*
-        try{
-            __icmp_socket = new DatagramSocket(port);
-            __icmp_socket.setSoTimeout(5000);
-            __icmp_socket.setReuseAddress(true);
-        }
-        catch(SocketException se){
-            throw new TesterException(TESTER_INIT_CLIENT_ERROR,"Unable to create socket ICMP for test",se.getCause());
-        }*/
+        // dovrebbe esserci codice relativo all' ICMP socket
     }
      
 
@@ -77,8 +66,10 @@ public class Tester {
                     else
                         test.uplink_test(this.__test_socket, duration);
                 }
-                else if(test_type == TEST_TRACEROUTE_TYPE)
-                    test.uplink_traceroute();
+                else if(test_type == TEST_TRACEROUTE_TYPE){
+                    //test.uplink_traceroute();
+                    logger.severe("not implemented test");
+                }
             }
 
             else if(phase == TEST_DOWNLINK_PHASE){
@@ -86,8 +77,10 @@ public class Tester {
                     logger.info("<INIZIO TEST DOWNLINK_SPEED>");
                     test.downlink_test(this.__test_socket,result);
                 }
-                else if(test_type == TEST_TRACEROUTE_TYPE)
-                    test.downlink_traceroute();
+                else if(test_type == TEST_TRACEROUTE_TYPE){
+                    //test.downlink_traceroute();
+                    logger.severe("not implemented test");
+                }
             }
         }
         catch (SocketTimeoutException ste){

@@ -91,28 +91,10 @@ public class TCPRandomTest extends TCPTest{
         super.send_on_socket(send_socket, choke);
     }
 
-    /* 
-    public String[] uplinkTraceroute(Socket send_socket, DatagramSocket icmp_socket, String[] traceroute) throws IOException {
-        int not_responding = 0;
-        send_socket.setSoTimeout(5000);
-        icmp_socket.setSoTimeout(2000);
-
-        SecureRandom random = new SecureRandom();
-        byte[] unchoke = new byte[5];
-        random.nextBytes(unchoke);
-
-        super.send_on_socket(send_socket, unchoke);
-        super.receive_from_socket(send_socket, 5);
-        super.receive_from_socket(send_socket, 1360);
-        byte[] response = this.build_response();
-        int ttl = 0;
-        icmp_socket.getSoTimeout();
-        InetAddress peer_address = send_socket.getInetAddress();
-        int peer_port = send_socket.getPort();
-    }
-
-    */
-
+    
+    
+    
+    
 
     private void __downlink_preparation(Socket receive_socket) throws IOException{
         byte[] handshake_send = super.generate_random_bytes(68);
@@ -125,7 +107,7 @@ public class TCPRandomTest extends TCPTest{
         byte[] interest = generate_random_bytes(5);
         send_on_socket(receive_socket, interest);
     }
-
+    
     public HashMap<Double, Integer> downlink_test(Socket receive_socket, HashMap<Double, Integer> intervals) throws IOException{
         System.out.println("<TCP - TEST DOWNLINK>");
         __downlink_preparation(receive_socket);
@@ -135,7 +117,7 @@ public class TCPRandomTest extends TCPTest{
         intervals.put(start, 0);
         // send request (80 pieces of 0x4000 bytes) and receive response
         // if choke received (5 bytes), stop test
-
+        
         while(true){
             byte[] request = build_request();
             super.send_on_socket(receive_socket, request);
@@ -143,16 +125,17 @@ public class TCPRandomTest extends TCPTest{
             total_rec += rec.length;
             // controllo se arrivato choke
             if(rec.length == 5)
-                break; 
+            break; 
         }
-
+        
         double stop = (System.currentTimeMillis() / 1000) - 5;
         double interval = stop - start;
         logger.info("Received: " + total_rec + ", Interval: " + interval + ", Throughput: " + (total_rec / interval));
-
+        
         return intervals;
     }
-
+    
+    /* 
     public void downlink_traceroute(Socket receive_socket) throws IOException{
         receive_socket.setSoTimeout(15000);
         // receive unchoke
@@ -166,12 +149,7 @@ public class TCPRandomTest extends TCPTest{
         // receive choke
         super.receive_from_socket(receive_socket, 5);
     }
-
-
-    public void downlink_traceroute(){
-        return;
-    }
-    public void uplink_traceroute(){
-        return;
-    }
+    */
+    
+    //public String[] uplinkTraceroute(Socket send_socket, DatagramSocket icmp_socket, String[] traceroute) throws IOException {}
 }
