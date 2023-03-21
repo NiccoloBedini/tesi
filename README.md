@@ -3,7 +3,7 @@
 Per testare:
 nella directory principale
 	- mvn compile
-  - mvn exec:java
+	- mvn exec:java
                                         
 Eseguire con i permessi di amministatore.
 
